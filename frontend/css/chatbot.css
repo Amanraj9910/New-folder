@@ -1,0 +1,423 @@
+/* Chatbot Widget Styles */
+.chatbot-widget {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 350px;
+    max-height: 500px;
+    background: var(--white);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    z-index: 1500;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 2px solid var(--primary-color);
+}
+
+.chatbot-widget.minimized {
+    max-height: 60px;
+}
+
+.chatbot-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: var(--white);
+    padding: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+}
+
+.chatbot-header i:first-child {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+}
+
+.chatbot-header span {
+    font-weight: 600;
+    flex-grow: 1;
+}
+
+.chatbot-header #chatbot-arrow {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.chatbot-widget.minimized #chatbot-arrow {
+    transform: rotate(180deg);
+}
+
+.chatbot-body {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    transition: all 0.3s ease;
+}
+
+.chatbot-widget.minimized .chatbot-body {
+    height: 0;
+    overflow: hidden;
+}
+
+.chatbot-messages {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    background: var(--background-light);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.chatbot-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chatbot-messages::-webkit-scrollbar-track {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+.chatbot-messages::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+
+.message {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    animation: fadeInUp 0.3s ease;
+}
+
+.bot-message {
+    align-self: flex-start;
+}
+
+.user-message {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.message-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.bot-message .message-avatar {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+.user-message .message-avatar {
+    background: var(--secondary-color);
+    color: var(--white);
+}
+
+.message-content {
+    background: var(--white);
+    padding: 0.75rem 1rem;
+    border-radius: 15px;
+    max-width: 250px;
+    word-wrap: break-word;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.bot-message .message-content {
+    border-bottom-left-radius: 5px;
+    border: 1px solid var(--border-color);
+}
+
+.user-message .message-content {
+    background: var(--primary-color);
+    color: var(--white);
+    border-bottom-right-radius: 5px;
+}
+
+.message-content.typing {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    color: var(--text-light);
+    font-style: italic;
+}
+
+.typing-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.typing-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    animation: typingDot 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typingDot {
+    0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.store-result {
+    background: var(--background-light);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 0.5rem 0;
+}
+
+.store-result h4 {
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.store-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.store-distance {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.store-availability {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.store-availability.in-stock {
+    color: #27ae60;
+}
+
+.store-availability.low-stock {
+    color: var(--accent-color);
+}
+
+.store-availability.out-of-stock {
+    color: #e74c3c;
+}
+
+.store-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.store-action-btn {
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.store-action-btn:hover {
+    background: var(--primary-dark);
+}
+
+.store-action-btn.secondary {
+    background: var(--border-color);
+    color: var(--text-dark);
+}
+
+.store-action-btn.secondary:hover {
+    background: var(--text-light);
+    color: var(--white);
+}
+
+.chatbot-input {
+    padding: 1rem;
+    background: var(--white);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 0.5rem;
+}
+
+.chatbot-input input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 25px;
+    outline: none;
+    font-size: 0.9rem;
+    transition: border-color 0.3s ease;
+}
+
+.chatbot-input input:focus {
+    border-color: var(--primary-color);
+}
+
+.chatbot-input button {
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.chatbot-input button:hover {
+    background: var(--primary-dark);
+    transform: scale(1.05);
+}
+
+.chatbot-input button:disabled {
+    background: var(--border-color);
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Quick Actions */
+.quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.quick-action {
+    background: var(--white);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.quick-action:hover {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+/* Map Modal Specific Styles */
+.map-modal {
+    max-width: 800px;
+}
+
+.store-list {
+    margin-top: 1rem;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.store-list-item {
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.store-list-item:hover {
+    border-color: var(--primary-color);
+    background: var(--background-light);
+}
+
+.store-list-item.selected {
+    border-color: var(--primary-color);
+    background: rgba(226, 28, 21, 0.1);
+}
+
+.store-list-item h4 {
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.store-list-item p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(226, 28, 21, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(226, 28, 21, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(226, 28, 21, 0);
+    }
+}
+
+.chatbot-widget.notification {
+    animation: pulse 2s infinite;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .chatbot-widget {
+        width: calc(100vw - 40px);
+        left: 20px;
+        right: 20px;
+        max-width: none;
+    }
+    
+    .message-content {
+        max-width: 200px;
+    }
+    
+    .store-result {
+        padding: 0.75rem;
+    }
+    
+    .store-actions {
+        flex-direction: column;
+    }
+    
+    .store-action-btn {
+        width: 100%;
+    }
+}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        button {
+            background: #e21c15;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #c41811;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Location Services Test</h1>
+    
+    <div class="test-section">
+        <h3>Test 1: Check Geolocation Support</h3>
+        <button onclick="checkGeolocationSupport()">Check Support</button>
+        <div id="support-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test 2: Request Location Permission</h3>
+        <button onclick="requestLocation()">Request Location</button>
+        <div id="location-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test 3: Test Manual Location Input</h3>
+        <input type="text" id="manual-location" placeholder="Enter location (e.g., Manhattan)" style="padding: 8px; width: 200px;">
+        <button onclick="testManualLocation()">Test Manual Location</button>
+        <div id="manual-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Instructions for FreshMart Chatbot:</h3>
+        <ul>
+            <li><strong>Allow Location:</strong> Click "Use My Location" and allow browser permission</li>
+            <li><strong>Manual Location:</strong> Type "I'm in Manhattan" or "I am in Brooklyn"</li>
+            <li><strong>Supported Areas:</strong> Manhattan, Brooklyn, Queens, Bronx, NYC, Downtown, Uptown</li>
+            <li><strong>Example Queries:</strong>
+                <ul>
+                    <li>"I'm in Manhattan"</li>
+                    <li>"I am at downtown NYC"</li>
+                    <li>"My location is Brooklyn"</li>
+                    <li>"I live in Queens"</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        function checkGeolocationSupport() {
+            const resultDiv = document.getElementById('support-result');
+            
+            if (navigator.geolocation) {
+                resultDiv.innerHTML = '✅ Geolocation is supported by this browser';
+                resultDiv.style.color = 'green';
+            } else {
+                resultDiv.innerHTML = '❌ Geolocation is not supported by this browser';
+                resultDiv.style.color = 'red';
+            }
+        }
+        
+        function requestLocation() {
+            const resultDiv = document.getElementById('location-result');
+            resultDiv.innerHTML = '⏳ Requesting location...';
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        resultDiv.innerHTML = `✅ Location obtained:<br>Latitude: ${lat}<br>Longitude: ${lng}`;
+                        resultDiv.style.color = 'green';
+                    },
+                    function(error) {
+                        let errorMessage = '❌ Location request failed: ';
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                errorMessage += 'User denied the request for Geolocation.';
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                errorMessage += 'Location information is unavailable.';
+                                break;
+                            case error.TIMEOUT:
+                                errorMessage += 'The request to get user location timed out.';
+                                break;
+                            default:
+                                errorMessage += 'An unknown error occurred.';
+                                break;
+                        }
+                        resultDiv.innerHTML = errorMessage;
+                        resultDiv.style.color = 'red';
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 300000
+                    }
+                );
+            } else {
+                resultDiv.innerHTML = '❌ Geolocation is not supported by this browser';
+                resultDiv.style.color = 'red';
+            }
+        }
+        
+        function testManualLocation() {
+            const input = document.getElementById('manual-location');
+            const resultDiv = document.getElementById('manual-result');
+            const location = input.value.toLowerCase();
+            
+            const locationMap = {
+                'manhattan': { lat: 40.7831, lng: -73.9712 },
+                'brooklyn': { lat: 40.6892, lng: -73.9442 },
+                'queens': { lat: 40.7282, lng: -73.7949 },
+                'bronx': { lat: 40.8448, lng: -73.8648 },
+                'new york': { lat: 40.7589, lng: -73.9851 },
+                'nyc': { lat: 40.7589, lng: -73.9851 },
+                'downtown': { lat: 40.7589, lng: -73.9851 },
+                'uptown': { lat: 40.7831, lng: -73.9712 }
+            };
+            
+            let found = false;
+            for (const [loc, coords] of Object.entries(locationMap)) {
+                if (location.includes(loc)) {
+                    resultDiv.innerHTML = `✅ Location recognized: ${loc}<br>Coordinates: ${coords.lat}, ${coords.lng}`;
+                    resultDiv.style.color = 'green';
+                    found = true;
+                    break;
+                }
+            }
+            
+            if (!found) {
+                resultDiv.innerHTML = `⚠️ Location not recognized. Will use default NYC location.<br>Try: Manhattan, Brooklyn, Queens, Bronx, NYC, Downtown, or Uptown`;
+                resultDiv.style.color = 'orange';
+            }
+        }
+        
+        // Auto-check support on page load
+        window.onload = function() {
+            checkGeolocationSupport();
+        };
+    </script>
+</body>
+</html>
